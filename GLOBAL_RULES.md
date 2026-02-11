@@ -1,0 +1,1 @@
+/Users/alexrussell/Desktop/Coding/AI_RULES/GLOBAL_RULES.md

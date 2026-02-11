@@ -1,0 +1,1 @@
+- 2026-02-08: Use strict TypeScript settings with Vite bundler module resolution and enforce typechecking via npm script.
