@@ -1,0 +1,2 @@
+- 2026-02-08: Migrated UI and API client to TypeScript; added tsconfig and typecheck script.
+- 2026-02-08: Confirmed LLM client and UI entry paths; updated AGENTS.md structure hints.

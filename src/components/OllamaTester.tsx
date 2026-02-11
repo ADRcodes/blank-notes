@@ -1,9 +1,9 @@
 import { useState } from "react";
-import "./App.css";
+import { generateOllamaResponse } from "../api/ollama";
 
-export default function App() {
+export default function OllamaTester() {
   const [text, setText] = useState("");
-  const [model, setModel] = useState("qwen3:8b");
+  const [model, setModel] = useState("llama3.2:3b");
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState("");
 
@@ -12,25 +12,14 @@ export default function App() {
     setOutput("");
 
     try {
-      const res = await fetch("/ollama/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model,
-          prompt: text,
-          stream: false,
-        }),
+      const response = await generateOllamaResponse({
+        model,
+        prompt: text,
       });
-
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`HTTP ${res.status}: ${errText}`);
-      }
-
-      const data = await res.json();
-      setOutput(data.response ?? "(No response field returned)");
+      setOutput(response);
     } catch (e) {
-      setOutput(`Error: ${e.message}`);
+      const message = e instanceof Error ? e.message : "Unknown error.";
+      setOutput(`Error: ${message}`);
     } finally {
       setLoading(false);
     }
