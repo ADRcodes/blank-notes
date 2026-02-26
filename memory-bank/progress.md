@@ -1,2 +1,11 @@
 - 2026-02-08: Migrated UI and API client to TypeScript; added tsconfig and typecheck script.
 - 2026-02-08: Confirmed LLM client and UI entry paths; updated AGENTS.md structure hints.
+- 2026-02-16: Added `ClassificationResult` TypeScript contract types in `src/features/ingest/schemas.ts` and verified with `npm run typecheck`.
+- 2026-02-16: Added runtime validation/normalization utilities for LLM output in `src/features/ingest/normalize.ts`, moved the current UI into `src/pages/AITutorial.tsx`, and updated `App.tsx` to render the new page.
+- 2026-02-16: Added `src/pages/BlankNote.tsx` as the minimal blank-note scaffold and added simple app navigation between `Blank Note` and `AI tutorial`, with `Blank Note` as the default page.
+- 2026-02-16: Upgraded `BlankNote` to a document-style editor surface with a single `Analyze Notes` action button and updated styling for a blank-page writing experience.
+- 2026-02-16: Added `src/features/editor/splitNotes.ts` with a two-empty-lines note splitter that normalizes newlines, filters empty chunks, and preserves note order.
+- 2026-02-16: Added `BlankNote` analyze flow that splits the document into notes, runs one Ollama prompt per note in order, and stores ordered per-note responses/errors in component state.
+- 2026-02-16: Rendered per-note result blocks under the editor in `BlankNote`, showing each source note with its returned response or inline error.
+- 2026-02-16: Switched default Ollama model from `llama3.2:3b` to `qwen3:8b` in `BlankNote`, `AiPromptBox`, and `OllamaTester`.
+- 2026-02-16: Added inline clarifying question display in `BlankNote` by extracting `needs_clarification` and `clarifying_question` from JSON responses per note.

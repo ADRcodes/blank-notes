@@ -3,20 +3,31 @@
 ## One-liner
 A blank page where users type anything; an LLM classifies it into structured entries and suggests relevant actions.
 
+## MVP UI (clarified)
+- App includes two pages in a simple nav:
+  - `Blank Note` (default)
+  - `AI tutorial`
+- `Blank Note` is the primary workflow page and should feel like a blank document.
+- On `Blank Note`, keep the interaction minimal:
+  - one large typing surface for free-form text input
+  - one explicit action button: `Analyze Notes`
+
+## Note boundary rule (MVP)
+- Two empty lines separate notes.
+- Each derived note is sent as an individual LLM prompt.
+- Ignore empty notes from leading/trailing separators.
+- Preserve note order for rendering and storage.
+
 ## Core user flow (MVP)
-1. User types a single entry and presses Save.
-2. App sends the text to the local LLM (Ollama) using `fetch("/ollama/api/generate")`.
-3. App parses the LLM output as JSON and validates it against the contract below.
-4. App stores:
-   - raw text
-   - classification result
-   - timestamps
-   in a browser-local SQLite database (sql.js).
-5. UI shows entries grouped into sections:
-   - Expenses
-   - Calendar
-   - Tasks
-   - Notes
+1. User opens `Blank Note` (default page).
+2. User types free-form text in the blank document.
+3. User clicks `Analyze Notes`.
+4. App splits the document into notes using the two-empty-lines rule.
+5. App sends each note to the local LLM using `fetch("/ollama/api/generate")`.
+6. App parses, validates, and normalizes each model response against the contract below.
+7. App renders each result directly below its relevant note text.
+8. If `needs_clarification` is `true`, app shows `clarifying_question` inline below that note.
+9. App stores raw document text, per-note classification results, and timestamps in browser-local SQLite.
 
 ## Non-goals (MVP)
 - No automatic external actions (no writing to Google Calendar, no sending emails, etc.).
@@ -64,8 +75,10 @@ The LLM must return JSON ONLY, matching:
 ## Robustness requirements
 - Never trust raw model output.
 - If JSON parsing fails or required fields are missing:
-  - store the entry as `unknown`
-  - ask a clarifying question or show a gentle error
+  - store the note as `unknown`
+  - ask a clarifying question or show a gentle inline error
+- Per-note failures must not block other notes from being processed.
+- Keep note/result mapping stable by note order.
 - Keep prompts deterministic and include examples.
 
 ## Future (post-MVP)

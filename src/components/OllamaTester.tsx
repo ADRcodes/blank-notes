@@ -3,7 +3,7 @@ import { generateOllamaResponse } from "../api/ollama";
 
 export default function OllamaTester() {
   const [text, setText] = useState("");
-  const [model, setModel] = useState("llama3.2:3b");
+  const [model, setModel] = useState("qwen3:8b");
   const [loading, setLoading] = useState(false);
   const [output, setOutput] = useState("");
 

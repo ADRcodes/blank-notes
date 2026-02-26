@@ -14,7 +14,7 @@ export default function AiPromptBox({
   description,
   samplePrompt,
   placeholder = "Type your prompt here...",
-  model = "llama3.2:3b",
+  model = "qwen3:8b",
 }: AiPromptBoxProps) {
   const [prompt, setPrompt] = useState("");
   const [output, setOutput] = useState("");
